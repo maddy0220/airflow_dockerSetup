@@ -1,0 +1,7 @@
+#snowflake-sqlalchemy==1.2.4
+airflow-code-editor==3.2.1
+boto3==1.17.14
+SQLAlchemy==1.3.13
+#apache-airflow-backport-providers-snowflake==2021.2.5
+install-jdk
+pymssql==2.2.1

@@ -1,0 +1,557 @@
+{
+  "airflow_dag_owner_name": "dagUser123",
+  "snowflake_time_zone": "US/Pacific123",
+  "configs_db_etl_host_s": "db-master.dev.altruistnet.tech123",
+
+  "common_variables":  {
+    "SNOWFLAKE_CONN_ID": "altruistSnowflake456"
+  },
+  "sch_tasklist_variables": {
+    "UNREALIZED_TAXABLE_TASKLIST": [
+      {
+        "step": [{
+          "task_name": "sch_unrealized_taxable_copy_into123",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_unrealized_taxable_copy_into','FALSE')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_unrealized_taxable_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch','sch_unrealized_taxable_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_unrealized_taxable_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_unrealized_taxable_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_unrealized_taxable_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_realized')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_unrealized_taxable_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_sch_realized')"
+        }]
+      }
+    ],
+
+    "UNREALIZED_NONTAXABLE_TASKLIST": [
+      {
+        "step": [{
+          "task_name": "sch_unrealized_nontaxable_copy_into",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_unrealized_nontaxable_copy_into','FALSE')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_unrealized_nontaxable_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch','sch_unrealized_nontaxable_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_unrealized_nontaxable_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_unrealized_nontaxable_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_unrealized_nontaxable_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_realized')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_unrealized_nontaxable_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_sch_realized')"
+        }]
+      }
+    ],
+
+    "REALIZED_TASKLIST": [
+      {
+        "step": [{
+          "task_name": "sch_realized_copy_into",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_realized_copy_into','FALSE')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_realized_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch','sch_realized_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_realized_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_realized_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_realized_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_realized')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_realized_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_sch_realized')"
+        }]
+      }
+    ],
+    "TRANSACTIONS_TASKLIST": [
+      {
+        "step": [{
+          "task_name": "sch_transactions_copy_into",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_transactions_copy_into','FALSE')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_transactions_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch','sch_transactions_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "sch_transactions_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_transactions_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_transactions_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_transactions')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_transactions_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_sch_transactions')"
+        }]
+      }
+    ],
+
+
+    "DEMOGRAPHICS_AND_ACCOUNTS_TASKLIST": [{
+      "step": [{
+        "task_name": "sch_demographics_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_demographics_copy_into','FALSE')"
+      }]
+    },
+      {
+        "step": [
+          [{
+            "task_name": "sch_demographics_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch', 'sch_demographics_xform')"
+
+          },
+            {
+              "task_name": "sch_demographics_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_demographics_xform')"
+
+            }
+          ],
+          [{
+            "task_name": "sch_accounts_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch', 'sch_accounts_xform')"
+
+          },
+            {
+              "task_name": "sch_accounts_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_accounts_xform')"
+
+            }
+          ]
+        ]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_demograpics_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_demographics')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_demograpics_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_sch_demographics')"
+        }]
+      }
+    ],
+    "SECURITIES_PRICES_TASKLIST": [{
+      "step": [{
+        "task_name": "sch_securities_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_securities_copy_into','FALSE')"
+      }]
+    },
+      {
+        "step": [
+
+          [{
+            "task_name": "sch_securities_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch', 'sch_securities_xform')"
+          },
+            {
+              "task_name": "sch_securities_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_securities_xform')"
+            }
+          ],
+          [{
+            "task_name": "sch_prices_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch', 'sch_prices_xform')"
+          },
+            {
+              "task_name": "sch_prices_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_prices_xform')"
+            }
+          ]
+        ]
+      },
+
+
+      {
+        "step": [{
+          "task_name": "copy_raw_securities_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_securities')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_securities_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_sch_securities')"
+        }]
+      }
+    ],
+    "POSITIONS_CASHBALANCE_TASKLIST": [{
+      "step": [{
+        "task_name": "sch_positions_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('sch', 'sch_positions_copy_into','FALSE')"
+      }]
+    },
+
+      {
+        "step": [
+          [{
+            "task_name": "sch_positions_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch', 'sch_positions_xform')"
+
+          },
+            {
+              "task_name": "sch_positions_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_positions_xform')"
+
+            }
+          ],
+          [{
+            "task_name": "sch_cashbalances_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('sch', 'sch_cash_balance_xform')"
+
+          },
+            {
+              "task_name": "sch_cashbalances_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('sch','sch_cash_balance_xform')"
+
+            }
+          ]
+        ]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_positions_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_sch_positions')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_positions_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.sch_positions_truncate')"
+        }]
+      }
+    ]
+  },
+  "tda_tasklist_variables": {
+    "SECURITIES_TASKLIST": [{
+      "step": [{
+        "task_name": "tda_securities_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_securities_copy_into','FALSE')"
+      }]
+    },
+      {
+        "step": [{
+          "task_name": "tda_securities_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda','tda_securities_xform')"
+
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_securities_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_securities_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_securities_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_securities')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_securities_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_securities')"
+        }]
+      }
+    ],
+    "UNREALIZED_TASKLIST": [{
+      "step": [{
+        "task_name": "tda_unrealized_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_unrealized_copy_into','FALSE')"
+      }]
+    },
+      {
+        "step": [{
+          "task_name": "tda_unrealized_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda','tda_unrealized_cost_basis_xform')"
+
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_unrealized_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_unrealized')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_unrealized_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_unrealized')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_unrealized_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_unrealized')"
+        }]
+      }
+    ],
+    "REALIZED_TASKLIST": [{
+      "step": [{
+        "task_name": "tda_realized_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_realized_copy_into','FALSE')"
+      }]
+    },
+      {
+        "step": [{
+          "task_name": "tda_realized_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda','tda_realized_cost_basis_xform')"
+
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_realized_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_realized_cost_basis_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_realized_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_realized')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_realized_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_realized')"
+        }]
+      }
+    ],
+    "PRICES_TASKLIST": [
+      {
+        "step": [{
+          "task_name": "tda_prices_copy_into",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_prices_copy_into','FALSE')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_prices_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda','tda_prices_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_prices_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_prices_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_prices_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_prices')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_prices_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_prices')"
+        }]
+      }
+    ],
+    "TRANSACTIONS_TASKLIST": [
+      {
+        "step": [{
+          "task_name": "tda_transactions_copy_into",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_transactions_copy_into','FALSE')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_transactions_validation",
+          "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda','tda_transactions_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "tda_transactions_transformation",
+          "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_transactions_xform')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_transactions_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_transactions')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_transactions_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_transactions')"
+        }]
+      }
+    ],
+
+    "DEMOGRAPHICS_AND_ACCOUNTS_TASKLIST": [{
+      "step": [{
+        "task_name": "tda_demographics_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_demographics_copy_into','FALSE')"
+      }]
+    },
+
+      {
+        "step": [
+          [{
+            "task_name": "tda_demographics_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda', 'tda_demographics_xform')"
+
+          },
+            {
+              "task_name": "tda_demographics_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_demographics_xform')"
+
+            }
+          ],
+          [{
+            "task_name": "tda_accounts_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda', 'tda_accounts_xform')"
+
+          },
+            {
+              "task_name": "tda_accounts_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_accounts_xform')"
+
+            }
+          ]
+        ]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_demograpics_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_demographics')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_demograpics_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_demographics')"
+        }]
+      }
+    ],
+    "POSITIONS_CASHBALANCE_TASKLIST": [{
+      "step": [{
+        "task_name": "tda_positions_copy_into",
+        "task_sp_parameters": "call bifrost.pipeline_information.copy_into_sp('tda', 'tda_positions_copy_into','FALSE')"
+      }]
+    },
+
+      {
+        "step": [
+          [{
+            "task_name": "tda_positions_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda', 'tda_positions_xform')"
+
+          },
+            {
+              "task_name": "tda_positions_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_positions_xform')"
+
+            }
+          ],
+          [{
+            "task_name": "tda_cashbalances_validation",
+            "task_sp_parameters": "call bifrost.pipeline_information.pre_transformation_validation_sp('tda', 'tda_cash_balance_xform')"
+
+          },
+            {
+              "task_name": "tda_cashbalances_transformation",
+              "task_sp_parameters": "call bifrost.pipeline_information.generic_transformation_sp('tda','tda_cash_balance_xform')"
+
+            }
+          ]
+        ]
+      },
+      {
+        "step": [{
+          "task_name": "copy_raw_positions_to_history",
+          "task_sp_parameters": "call bifrost.pipeline_information.copy_raw_to_history_sp('bifrost.custodian_feed.raw_tda_positions')"
+        }]
+      },
+      {
+        "step": [{
+          "task_name": "truncate_positions_raw_table",
+          "task_sp_parameters": "call bifrost.pipeline_information.truncate_raw_table_sp('bifrost.custodian_feed.raw_tda_positions')"
+        }]
+      }
+    ]
+
+  },
+  "tda_common_variables": {
+
+    "PRE_TRANSFORMATION_VALIDATION_SP_NAME" :"pre_transformation_validation_sp",
+    "SNOWFLAKE_CUSTODIAN_FEED_SCHEMA_NAME": "custodian_feed",
+    "GENERIC_PIPELINE_XFORM_SP_NAME":"generic_pipeline_sp",
+    "RAW_FILE_VALIDATION_SP_NAME": "prevalidate_rawdata_sp",
+    "RAW_FILE_VALIDATION_SCHEMA_NAME": "VALIDATION_SCHEMA",
+    "RAW_SCHEMA_NAME": "CUSTODIAN_FEED",
+    "SNOWFLAKE_CONN_ID": "altruistSnowflake",
+    "MOVE_RAW_TO_HISTORY_SP_NAME": "copy_raw_table_to_history_sp",
+    "CUSTODIAN_ID": "tda"
+  },
+  "TDA_PM_DAG_LIST":
+  {"daglist":
+  ["tda_demographic_processing",
+    "tda_positions_processing",
+    "tda_transactions_processing",
+    "tda_prices_processing",
+    "tda_securities_processing"]
+  }, 
+  "aaaaaaaa123" :"bbbbbbbbb123"
+
+}
+
