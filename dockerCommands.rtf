@@ -17,3 +17,5 @@ docker build --no-cache -t my-airflow-docker:0.7 . \
 \
 \
 docker build --no-cache -t my-docker-airflow:1.6 -f Dockerfile.extended . --build-arg AIRFLOW_VERSION=1.10.12}
+
+docker-compose -f docker-compose-LocalExecutor.yml up
